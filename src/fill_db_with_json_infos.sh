@@ -35,7 +35,7 @@ jq -c '.[]' "$JSON_FILE" | while read -r item; do
       VALUES ('$id', $stars, '$categories', '$source_code');
 EOF
 
-    printf "Mis à jour : %-20s (%-10s stars) progression: %d/%d  [%ds]\n" "$id" "$stars" "$counter" "$1" "$((SECONDS - start))"
+    printf "Mis à jour : %-40s progression: %d/%d  [%ds]\n" "$id" "$counter" "$1" "$((SECONDS - start))"
     ((counter++))
 done
 
