@@ -7,6 +7,9 @@ build_curl_args() {
     CURL_ARGS=(-s)
     if [[ -n "$GITHUB_TOKEN" ]]; then
         CURL_ARGS+=(-H "Authorization: token $GITHUB_TOKEN")
+        echo "un token github à été trouvé"
+    else 
+        echo "aucun token github configuré voir README.md"
     fi
 }
 
@@ -49,6 +52,8 @@ counter=1
 echo "[- PARTIE 2 OBTENTION -]"
 
 echo "début du téléchargement..."
+
+build_curl_args
 
 while IFS= read -r line; do
     id=$(echo "$line" | jq -r '.id')
