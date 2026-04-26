@@ -2,7 +2,7 @@
 
 # Configuration
 DB_NAME="./data/sqlite.db"
-CSV_DIR="."
+CSV_DIR="./results"
 
 # Vérification de l'existence des fichiers
 if [ ! -f "$DB_NAME" ]; then echo "Erreur : Base de données introuvable."; exit 1; fi
@@ -26,7 +26,7 @@ for file in "$CSV_DIR"/*.csv; do
         sql_safe_name=$(echo "$error_name" | sed "s/'/''/g")
 
         # A. Mise à jour du catalogue d'erreurs
-        sqlite3 "$DB_NAME" "INSERT OR IGNORE INTO error_catalog (error_name) VALUES ('$sql_safe_name', '$severity');"
+        sqlite3 "$DB_NAME" "INSERT OR IGNORE INTO error_catalog (error_name) VALUES ('$sql_safe_name');"
 
         # B. Insertion ou mise à jour du rapport (table de faits)
         sqlite3 "$DB_NAME" <<EOF

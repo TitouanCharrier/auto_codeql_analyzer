@@ -14,8 +14,7 @@ sqlite3 "$DB_NAME" <<EOF
 
   CREATE TABLE IF NOT EXISTS error_catalog (
       error_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      error_name TEXT UNIQUE,
-      severity TEXT
+      error_name TEXT UNIQUE
   );
 
   CREATE TABLE IF NOT EXISTS error_reports (
