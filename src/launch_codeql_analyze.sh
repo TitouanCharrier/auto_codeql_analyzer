@@ -1,10 +1,15 @@
-#!/usr/bin/bash
+#!/bin/bash
+
+TOTAL=$1
+THREADS=$2
+counter=1
 
 process_repo() {
     local repo_dir=$1
     local id
     id=$(basename "$repo_dir")
 
+    start=$SECONDS
 
     # Création de la base
     codeql database create "dbs/$id" \
@@ -13,6 +18,11 @@ process_repo() {
         --source-root="$repo_dir" \
         --overwrite \
         2>&1 | >> logs
+
+    if [ $? -ne 0 ]; then
+        echo "ERREUR création DB : $id" 
+        return 1  
+    fi
 
     # Analyse avec le pack custom
     codeql database analyze "dbs/$id" \
@@ -24,10 +34,12 @@ process_repo() {
 
     # Suppression de la base
     rm -rf "dbs/$id"
+    
+    printf "Repo analysé : %-40s progression: %d/%d  [%ds]\n" "$id" "$2" "$3" "$((SECONDS - start))"
+
 
 }
 
-counter=1
 
 echo "[- PARTIE 3 ANALYSE -]"
 
@@ -35,9 +47,13 @@ echo "début de l'analyse..."
 
 for repo_dir in repos/*/; 
 do 
-    start=$SECONDS
-    process_repo "$repo_dir" 
-
-    printf "Repo analysé : %-40s progression: %d/%d  [%ds]\n" "$(basename $repo_dir)" "$counter" "$1" "$((SECONDS - start))"
+  while [ "$(jobs -rp | wc -l)" -ge "$THREADS" ]; 
+  do
+    sleep 0.5
+  done
+    process_repo "$repo_dir" "$counter" "$TOTAL" &
     ((counter++))
+
 done
+
+wait
