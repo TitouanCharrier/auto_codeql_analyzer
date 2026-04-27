@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+GITHUB_TOKEN=""
+
 DL_THREADS=100
 CQL_THREADS=10
 
@@ -13,10 +15,10 @@ echo "$nb_repos repos détéctés"
 ./src/create_sqlite_bd.sh $nb_repos
 
 # PARTIE 3
-#./src/get_repos.sh "java_repo.json" $nb_repos $DL_THREADS
+./src/get_repos.sh "java_repo.json" $nb_repos $DL_THREADS $GITHUB_TOKEN
 
 # PARTIE 4
-#./src/launch_codeql_analyze.sh $nb_repos $CQL_THREADS
+./src/launch_codeql_analyze.sh $nb_repos $CQL_THREADS
 
 # PARTIE 5
 ./src/fill_db_with_json_infos.sh $nb_repos

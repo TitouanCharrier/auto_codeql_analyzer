@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITHUB_TOKEN=${GITHUB_TOKEN:-""}
+GITHUB_TOKEN=$4
 THREADS=$3
 
 # Mise en place du GH token pour les requêtes
