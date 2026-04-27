@@ -1,18 +1,18 @@
 #!/bin/bash
 start=$SECONDS
 
-echo "[- PARTIE 4 INIT SQLITE -]"
+echo "[- PARTIE 2 INIT SQLITE -]"
 
 DB_NAME="./data/sqlite.db"
 
 # 1. Initialisation du schéma relationnel
-sqlite3 "$DB_NAME" <<EOF
-  CREATE TABLE IF NOT EXISTS repos (
+sqlite3 "$DB_NAME" "CREATE TABLE IF NOT EXISTS repos (
       id TEXT PRIMARY KEY,
       stars INTEGER DEFAULT 0,
       categories TEXT,
-      url TEXT
-
+      url TEXT,
+      creation_date DATE,
+      last_commit_date DATE
   );
 
   CREATE TABLE IF NOT EXISTS error_catalog (
@@ -28,7 +28,6 @@ sqlite3 "$DB_NAME" <<EOF
       FOREIGN KEY(repo_id) REFERENCES repos(id),
       FOREIGN KEY(error_id) REFERENCES error_catalog(error_id),
       UNIQUE(repo_id, error_id)
-  );
-EOF
+  );"
 
-echo "database sqlite créé dans $DB_NAME [$((SECONDS - start))s]" 
+echo "database sqlite créé dans $DB_NAME [$((SECONDS - start))s]"

@@ -28,7 +28,6 @@ download_java_files() {
     local api_response
     api_response=$(curl -s "${CURL_ARGS[@]}" "https://api.github.com/repos/$repo/git/trees/HEAD?recursive=1") 
 
-
     local error_msg
     error_msg=$(echo "$api_response" | jq -r '.message // empty')
     if [[ -n "$error_msg" ]]; then

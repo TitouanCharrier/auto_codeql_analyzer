@@ -41,7 +41,7 @@ process_repo() {
 }
 
 
-echo "[- PARTIE 3 ANALYSE -]"
+echo "[- PARTIE 4 ANALYSE -]"
 
 echo "début de l'analyse..."
 
