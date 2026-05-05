@@ -5,27 +5,34 @@ GITHUB_TOKEN=""
 DL_THREADS=100
 CQL_THREADS=10
 
+NB_REPOS_BY_PASS=100
+
 # PARTIE 1
-./src/initialization.sh
 
-nb_repos=$(jq 'length' java_repo.json)
-echo "$nb_repos repos détéctés"
+./src/initialization.sh 
 
-# PARTIE 2
-./src/create_sqlite_bd.sh $nb_repos
+for file in json/*.json; do 
 
-# PARTIE 3
-./src/get_repos.sh "java_repo.json" $nb_repos $DL_THREADS $GITHUB_TOKEN
+  nb_repos=$(jq 'length' $file)
 
-# PARTIE 4
-./src/launch_codeql_analyze.sh $nb_repos $CQL_THREADS
+  echo "$nb_repos repos détéctés"
 
-# PARTIE 5
-./src/fill_db_with_json_infos.sh $nb_repos
+  # PARTIE 2
+  ./src/create_sqlite_bd.sh $nb_repos
 
-# PARTIE 6
-./src/fill_db_with_csv_infos.sh $nb_repos
+  # PARTIE 3
+  ./src/get_repos.sh $file $nb_repos $DL_THREADS $GITHUB_TOKEN
 
-# PARTIE 7
-./src/fill_db_with_nb_lines.sh
+  # PARTIE 4
+  ./src/launch_codeql_analyze.sh $nb_repos $CQL_THREADS
 
+  # PARTIE 5
+  ./src/fill_db_with_json_infos.sh $nb_repos
+
+  # PARTIE 6
+  ./src/fill_db_with_csv_infos.sh $nb_repos
+
+  # PARTIE 7
+  ./src/fill_db_with_nb_lines.sh
+
+done
