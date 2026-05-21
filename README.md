@@ -16,6 +16,9 @@ configuration :
 - renseigner les informations demandées
 toutes les configurations seront stocké dans le ```config.json``` généré après le premier lancement de l'application.
 
+notes :
+- le dossier ```generated``` contient les résidus d'éxécution et peut être supprimé à la fin de l'analyse globale.
+- codeql va télécharger beaucoup de Go de dépendances maven, elles sont stocké dans votre ```~/.m2``` afin de ne pas avoir à les re-télécharger d'une éxécution sur l'autre. 
 
 interprétation des données :
 le programme fourni une base de donnée SQLITE (sqlite.db)
