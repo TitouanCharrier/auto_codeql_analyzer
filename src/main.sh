@@ -183,11 +183,13 @@ gum confirm "  Lancer la pipeline ?" || { info "Annulé."; exit 0; }
 # ─────────────────────────────────────────
 header
 
+DB_NAME="output.db"
+
 # PARTIE 1
 ./src/initialization.sh $JSON_FILENAME $NB_REPOS_BY_PASS
 
 # PARTIE 2
-./src/create_sqlite_bd.sh 
+./src/create_sqlite_bd.sh $DB_NAME 
 
 for file in generated/json/*.json; do 
   
@@ -196,19 +198,19 @@ for file in generated/json/*.json; do
   echo "$nb_repos repos détéctés"
   
   # PARTIE 3
-  ./src/get_repos.sh $file $nb_repos $DL_THREADS $GITHUB_TOKEN
+  ./src/get_repos.sh $file $nb_repos $DL_THREADS $GITHUB_TOKEN $DB_NAME
 
   # PARTIE 4
-  ./src/launch_codeql_analyze.sh $nb_repos $CQL_THREADS
+  ./src/launch_codeql_analyze.sh $nb_repos $CQL_THREADS $DB_NAME $QLPACK_VERSION
 
   # PARTIE 5
-  ./src/fill_db_with_json_infos.sh $nb_repos $file
+  ./src/fill_db_with_json_infos.sh $nb_repos $file $DB_NAME
 
   # PARTIE 6
-  ./src/fill_db_with_csv_infos.sh $nb_repos $file
+  ./src/fill_db_with_csv_infos.sh $nb_repos $file $DB_NAME
 
   # PARTIE 7
-  ./src/fill_db_with_nb_lines.sh
+  ./src/fill_db_with_nb_lines.sh $DB_NAME
 done
 
 # ─────────────────────────────────────────

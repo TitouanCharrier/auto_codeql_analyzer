@@ -5,8 +5,8 @@ echo -e "\033[36m[- PARTIE 6 PARSING CSV -]\033[0m"
 echo ""
 
 # Configuration
-DB_NAME="sqlite.db"
-CSV_DIR="./results"
+DB_NAME=$3
+CSV_DIR="generated/results"
 counter=1
 
 # Vérification de l'existence des fichiers

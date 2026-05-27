@@ -2,7 +2,9 @@
 
 TOTAL=$1
 THREADS=$2
-DB_NAME="sqlite.db"
+DB_NAME=$3
+QL_VERSION=$4
+
 counter=1
 
 process_repo() {
@@ -27,9 +29,10 @@ process_repo() {
 
     # Analyse avec le pack custom
     codeql database analyze "generated/dbs/$id" \
-        green-code-initiative/java-queries@1.0.12 \
+        "green-code-initiative/java-queries@$QL_VERSION" \
         --format=csv \
-        --output="generated/results/$id.csv" \
+        --output="generated/results/$id.csv"\
+        --download \
         2>&1 | >> logs
 
     # Suppression de la base

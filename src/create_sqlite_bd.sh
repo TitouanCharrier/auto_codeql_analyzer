@@ -5,7 +5,7 @@ echo ""
 echo -e "\033[36m[- PARTIE 2 INIT SQLITE -]\033[0m"
 echo ""
 
-DB_NAME="./sqlite.db"
+DB_NAME=$1
 
 # 1. Initialisation du schéma relationnel
 sqlite3 "$DB_NAME" "CREATE TABLE IF NOT EXISTS repos (

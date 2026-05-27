@@ -2,7 +2,7 @@
 
 GITHUB_TOKEN=$4
 THREADS=$3
-DB_NAME="sqlite.db"
+DB_NAME=$5
 
 # Mise en place du GH token pour les requêtes
 build_curl_args() {
